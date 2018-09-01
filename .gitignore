@@ -36,3 +36,5 @@
 *.swo
 
 build
+
+thirdparty

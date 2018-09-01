@@ -1,16 +1,50 @@
 #pragma once
 
 #include <iostream>
-#include <unordered_set>
 #include <vector>
+#include <unordered_map>
+#include "unordered_set"
 
 using namespace std;
 
 namespace fst {
+const unsigned int TERMINAL_SYMBOL_TYPE = 0; // terminal symbol
+const unsigned int NON_TERMINAL_SYMBOL_TYPE = 1; // none terminal symbol
+const static string EPSILON = "";
+
+class Symbol {
+  public:
+    unsigned int type;
+    string text;
+
+    Symbol(): type(TERMINAL_SYMBOL_TYPE), text(EPSILON) {}
+    Symbol(string te): type(TERMINAL_SYMBOL_TYPE), text(te) {}
+    Symbol(unsigned int ty, string te): type(ty), text(te) {}
+
+    static Symbol Epsilon();
+    static Symbol Terminal(string te);
+    static Symbol NonTerminal(string te);
+
+    bool isEpsilon();
+    bool isTerminal();
+    bool isNonTerminal();
+
+    string toString();
+};
+
 class Production {
-private:
-  string head;
-  vector<string> body;
+public:
+  Symbol head;
+  vector<Symbol> body;
+  // TODO validation
+  Production(Symbol h, vector<Symbol> b): head(h), body(b) {}
+
+  // A -> ε
+  bool isEpsilonProduction();
+  unsigned int getBodyLength();
+  Symbol getFirstBody();
+
+  string toString();
 };
 
 /**
@@ -47,14 +81,26 @@ private:
 
 class ContextFreeGrammer {
 private:
-  string start;
-  unordered_set<string> T;
-  unordered_set<string> NT;
-  vector<Production> productions;
+  unordered_map<string, Symbol> symbolMap;
+  unordered_map<string, unordered_set<string>> firstSetMap;
 
+  void generateSymbolMap();
+  void generateFirstSetMap();
+  bool hasSymbolInFirstSet(Symbol first, string txt);
+  bool hasEpsilonInFirstSet(Symbol symbol);
+  bool insertToFirstSet(Symbol symbol, string txt);
 public:
-  ContextFreeGrammer(string s, unordered_set<string> t,
-                     unordered_set<string> nt, vector<Production> p)
-      : start(s), T(t), NT(nt), productions(p) {}
+  Symbol start;
+  vector<Production> productions;
+  unordered_map<string, vector<Production>> productionMap;
+
+  // constructor
+  ContextFreeGrammer(Symbol s, vector<Production> p);
+
+  // first set
+  unordered_set<string> getFirstSet(vector<Symbol> seq);
+  unordered_set<string> getFirstSetOfSymbol(Symbol symbol);
+
+  string toString();
 };
 } // namespace fst
