@@ -10,7 +10,11 @@ namespace fst {
   }
 
   Symbol Symbol::Epsilon() {
-    return Terminal("");
+    return Terminal(EPSILON);
+  }
+
+  Symbol Symbol::EndSymbol() {
+    return Terminal(END_SYMBOL_TEXT);
   }
 
   bool Symbol::isEpsilon() {
@@ -101,6 +105,10 @@ namespace fst {
       return true;
     }
     return false;
+  }
+
+  unordered_map<string, unordered_set<string>> ContextFreeGrammer::getFirstSetMap() {
+    return this->firstSetMap;
   }
 
   /**

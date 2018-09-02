@@ -11,6 +11,7 @@ namespace fst {
 const unsigned int TERMINAL_SYMBOL_TYPE = 0; // terminal symbol
 const unsigned int NON_TERMINAL_SYMBOL_TYPE = 1; // none terminal symbol
 const static string EPSILON = "";
+const static string END_SYMBOL_TEXT = "$";
 
 class Symbol {
   public:
@@ -22,6 +23,7 @@ class Symbol {
     Symbol(unsigned int ty, string te): type(ty), text(te) {}
 
     static Symbol Epsilon();
+    static Symbol EndSymbol();
     static Symbol Terminal(string te);
     static Symbol NonTerminal(string te);
 
@@ -36,6 +38,9 @@ class Production {
 public:
   Symbol head;
   vector<Symbol> body;
+
+  Production() {}
+
   // TODO validation
   Production(Symbol h, vector<Symbol> b): head(h), body(b) {}
 
@@ -100,6 +105,8 @@ public:
   // first set
   unordered_set<string> getFirstSet(vector<Symbol> seq);
   unordered_set<string> getFirstSetOfSymbol(Symbol symbol);
+
+  unordered_map<string, unordered_set<string>> getFirstSetMap();
 
   string toString();
 };

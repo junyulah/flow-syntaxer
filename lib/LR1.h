@@ -1,6 +1,7 @@
 #pragma once
 
 #include "./contextFreeGrammer.h"
+#include "unordered_set"
 
 /**
  *
@@ -24,6 +25,8 @@ public:
   unsigned int position;
   Symbol follow; // terminal symbol
 
+  LR1Item() {}
+
   /**
    * position in [0, produciton.body.length]
    */
@@ -42,18 +45,26 @@ public:
   // A -> α.Bβ => β
   vector<Symbol> getNextRestSymbols();
 
+  string getId();
+
   /**
    * viable prefix
    * LR(1) item [A -> α.β, a] is valid for viable prefix ρ=δα, if:
    *   (1) exists S *=> δAw => δαβw
    *   (2) a if the first letter of w. if w = ε, a = #
    */
+
+  string toString();
 };
 
 class LR1ItemSet {
 private:
-  vector<LR1Item> items;
+  LR1Item core; // core items. S'-> S or other position is not 0 items
+  unordered_map<string, LR1Item> items;
 public:
-  LR1ItemSet(ContextFreeGrammer& cfg, vector<LR1Item> is);
+  LR1ItemSet(ContextFreeGrammer& cfg, LR1Item core);
+
+  string getId();
+  string toString();
 };
 }; // namespace fst

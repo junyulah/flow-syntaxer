@@ -23,13 +23,15 @@ fst::ContextFreeGrammer egGrammer1() {
 
 void testCFGFirstSet() {
   auto g1 = egGrammer1();
-  unordered_set<string> r1({"id", fst::EPSILON});
-  unordered_set<string> r2({"id"});
-  unordered_set<string> r3({fst::EPSILON});
+  unordered_map<string, unordered_set<string>> r1 = {{"S", {"id", fst::EPSILON}}, {"id", {"id"}}, {fst::EPSILON, {fst::EPSILON}}};
+  assert(g1.getFirstSetMap() == r1);
+}
 
-  assert(g1.getFirstSet(vector<fst::Symbol>{g1.start}) == r1);
-  assert(g1.getFirstSet(vector<fst::Symbol>{fst::Symbol::Terminal("id")}) == r2);
-  assert(g1.getFirstSet(vector<fst::Symbol>{fst::Symbol::Terminal(fst::EPSILON)}) == r3);
+void testLR1Closure() {
+  auto g1 = egGrammer1();
+  cout << fst::LR1ItemSet(g1, fst::LR1Item(g1.productions[1], 0, fst::END_SYMBOL_TEXT)).toString() << endl;
+  cout << fst::LR1ItemSet(g1, fst::LR1Item(g1.productions[0], 0, fst::END_SYMBOL_TEXT)).toString() << endl;
+  cout << fst::LR1ItemSet(g1, fst::LR1Item(g1.productions[2], 0, fst::END_SYMBOL_TEXT)).toString() << endl;
 }
 
 void testLR1GetItemType() {
@@ -55,5 +57,6 @@ void testLR1GetItemType() {
 int main() {
     testCFGFirstSet();
     testLR1GetItemType();
+    testLR1Closure();
     return 0;
 }

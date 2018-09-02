@@ -29,20 +29,33 @@ namespace fst {
     return ret;
   }
 
+  string LR1Item::getId() {
+    // TODO escape special situation
+    return "[" + this->production.toString() + "," + to_string(this->position) + "," + this->follow.toString() + "]";
+  }
+
+  string LR1Item::toString() {
+    return this->getId();
+  }
+
   // closure
-  LR1ItemSet::LR1ItemSet(ContextFreeGrammer& cfg, vector<LR1Item> is) {
-    this->items = is;
+  LR1ItemSet::LR1ItemSet(ContextFreeGrammer& cfg, LR1Item core) {
+    // initial
+    this->core = core;
+    this->items.insert({core.getId(), core});
+   
     auto prevItems = this->items;
 
     while(true) {
-      vector<LR1Item> newItems;
+      unordered_map<string, LR1Item> newItems;
 
       // for every item [A -> α.Bβ, a]
-      for(auto item = prevItems.begin(); item != prevItems.end(); ++item) {
-        auto symbol = item->getNextSymbol(); // B
+      for(auto kv = prevItems.begin(); kv != prevItems.end(); ++kv) {
+        auto item = kv->second;
+        auto symbol = item.getNextSymbol(); // B
         if(symbol.type == fst::NON_TERMINAL_SYMBOL_TYPE) {
-          auto rmsential = item->getNextRestSymbols(); // β
-          rmsential.push_back(item->follow); // βa
+          auto rmsential = item.getNextRestSymbols(); // β
+          rmsential.push_back(item.follow); // βa
 
           // for every production B -> ρ in cfg
           auto productions = cfg.productionMap[symbol.text];
@@ -51,20 +64,38 @@ namespace fst {
             // for every terminal b in First(βa)
             // add [B -> .ρ, b] into items
             for(auto b = fstSet.begin(); b != fstSet.end(); ++b) { // b
-              newItems.push_back(LR1Item(*pro, 0, *b));
+              auto newItem = LR1Item(*pro, 0, *b);
+              auto newItemId = newItem.getId();
+              // may have repeated item
+              if(this->items.find(newItemId) == this->items.end()) {
+                newItems.insert({newItem.getId(), newItem});
+              }
             }
           }
         }
       }
 
       if(newItems.size() > 0) {
-        // concat items
-        this->items.insert(this->items.end(), newItems.begin(), newItems.end());
+        // concat new items
+        this->items.insert(newItems.begin(), newItems.end());
         prevItems = newItems;
       } else {
         // if no more new items, just stop
         break;
       }
     } 
+  }
+
+  string LR1ItemSet::getId() {
+    return this->core.getId();
+  }
+
+  // toString
+  string LR1ItemSet::toString() {
+    string text = "";
+    for(auto kv = this->items.begin(); kv != this->items.end(); ++kv) {
+      text += kv->second.toString() + "\n";
+    }
+    return text;
   }
 };
