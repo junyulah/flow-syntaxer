@@ -19,6 +19,7 @@ class Symbol {
     string text;
 
     Symbol(): type(TERMINAL_SYMBOL_TYPE), text(EPSILON) {}
+    // default is terminal
     Symbol(string te): type(TERMINAL_SYMBOL_TYPE), text(te) {}
     Symbol(unsigned int ty, string te): type(ty), text(te) {}
 
@@ -30,6 +31,8 @@ class Symbol {
     bool isEpsilon();
     bool isTerminal();
     bool isNonTerminal();
+
+    bool operator==(const Symbol &sym) const;
 
     string toString();
 };

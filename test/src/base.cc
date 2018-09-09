@@ -1,5 +1,6 @@
 #include "../../lib/LR1.h"
 #include "assert.h"
+#include "vector"
 #include <iostream>
 
 // start = S
@@ -29,9 +30,9 @@ void testCFGFirstSet() {
 
 void testLR1Closure() {
   auto g1 = egGrammer1();
-  cout << fst::LR1ItemSet(g1, fst::LR1Item(g1.productions[1], 0, fst::END_SYMBOL_TEXT)).toString() << endl;
-  cout << fst::LR1ItemSet(g1, fst::LR1Item(g1.productions[0], 0, fst::END_SYMBOL_TEXT)).toString() << endl;
-  cout << fst::LR1ItemSet(g1, fst::LR1Item(g1.productions[2], 0, fst::END_SYMBOL_TEXT)).toString() << endl;
+  cout << fst::LR1ItemSet(g1, vector<fst::LR1Item>{fst::LR1Item(g1.productions[1], 0, fst::END_SYMBOL_TEXT)}).toString() << endl;
+  cout << fst::LR1ItemSet(g1, vector<fst::LR1Item>{fst::LR1Item(g1.productions[0], 0, fst::END_SYMBOL_TEXT)}).toString() << endl;
+  cout << fst::LR1ItemSet(g1, vector<fst::LR1Item>{fst::LR1Item(g1.productions[2], 0, fst::END_SYMBOL_TEXT)}).toString() << endl;
 }
 
 void testLR1GetItemType() {

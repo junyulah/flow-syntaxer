@@ -29,8 +29,8 @@ namespace fst {
     return ret;
   }
 
+  // TODO escape special situation
   string LR1Item::getId() {
-    // TODO escape special situation
     return "[" + this->production.toString() + "," + to_string(this->position) + "," + this->follow.toString() + "]";
   }
 
@@ -38,11 +38,24 @@ namespace fst {
     return this->getId();
   }
 
+  namespace {
+    bool orderLR1ItemCompare(LR1Item item1, LR1Item item2) {
+      return item1.getId().compare(item2.getId());
+    }
+  } 
+
   // closure
-  LR1ItemSet::LR1ItemSet(ContextFreeGrammer& cfg, LR1Item core) {
+  LR1ItemSet::LR1ItemSet(ContextFreeGrammer& cfg, vector<LR1Item> coreItems): cfg(cfg) {
+    std::sort(coreItems.begin(), coreItems.end(), orderLR1ItemCompare);
+    this->id = "";
+
     // initial
-    this->core = core;
-    this->items.insert({core.getId(), core});
+    this->coreItems = coreItems;
+    for(auto item = coreItems.begin(); item != coreItems.end(); ++item) {
+      auto itemId = item -> getId();
+      this->items.insert({item -> getId(), *item});
+      this->id += itemId;
+    }
    
     auto prevItems = this->items;
 
@@ -87,7 +100,7 @@ namespace fst {
   }
 
   string LR1ItemSet::getId() {
-    return this->core.getId();
+    return this->id;
   }
 
   // toString
@@ -97,5 +110,18 @@ namespace fst {
       text += kv->second.toString() + "\n";
     }
     return text;
+  }
+
+  LR1ItemSet goTo(LR1ItemSet I, Symbol X) {
+    vector<LR1Item> J;
+    // for every item in I, [A -> α.Xβ, a]
+    for(auto p = I.items.begin(); p != I.items.end(); ++p) {
+      auto item = p->second;
+      if(item.getNextSymbol() == X) { // add [A -> αX.β, a]
+        J.push_back(LR1Item(item.production, item.position + 1, item.follow.text));
+      }
+    }
+    // return closure of J
+    return LR1ItemSet(I.cfg, J);
   }
 };

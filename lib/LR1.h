@@ -19,6 +19,7 @@ const unsigned int LR1_REDUCE_ITEM = 0;
 const unsigned int LR1_SHIFT_ITEM = 1;
 const unsigned int LR1_WAIT_REDUCE_ITEM = 2;
 
+// LR1 Item
 class LR1Item {
 public: 
   fst::Production  production;
@@ -57,14 +58,24 @@ public:
   string toString();
 };
 
+// LR1 Item Set
 class LR1ItemSet {
 private:
-  LR1Item core; // core items. S'-> S or other position is not 0 items
-  unordered_map<string, LR1Item> items;
+  string id;
 public:
-  LR1ItemSet(ContextFreeGrammer& cfg, LR1Item core);
+  vector<LR1Item> coreItems; // core items. S'-> .S or other position is not 0 items
+  // id -> LR1Item
+  unordered_map<string, LR1Item> items; // closure
+  ContextFreeGrammer& cfg;
 
-  string getId();
+  LR1ItemSet(ContextFreeGrammer& cfg, vector<LR1Item> coreItems);
+
+  string getId(); // the id of core LR1 item
   string toString();
 };
+
+// goto function
+LR1ItemSet goTo(LR1ItemSet I, Symbol X);
+
+// Sets of LR1 Item Set
 }; // namespace fst

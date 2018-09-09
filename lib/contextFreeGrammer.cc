@@ -29,6 +29,10 @@ namespace fst {
     return this->type == NON_TERMINAL_SYMBOL_TYPE;
   }
 
+  bool Symbol::operator==(const Symbol &sym) const {
+    return this->type == sym.type && this->text == sym.text;
+  }
+
   string Symbol::toString() {
     return this->text;
   }
