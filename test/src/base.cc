@@ -55,6 +55,10 @@ void testLR1GetItemType() {
   assert(item3.getItemType() == fst::LR1_REDUCE_ITEM);
 }
 
+// TODO
+void testLR1Goto() {
+}
+
 int main() {
     testCFGFirstSet();
     testLR1GetItemType();

@@ -78,4 +78,6 @@ public:
 LR1ItemSet goTo(LR1ItemSet I, Symbol X);
 
 // Sets of LR1 Item Set
+class LR1ItemSets {
+};
 }; // namespace fst
