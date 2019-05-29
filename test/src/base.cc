@@ -1,4 +1,4 @@
-#include "../../lib/LR1.h"
+#include "../../lib/LR1Table.h"
 #include "assert.h"
 #include "vector"
 #include <iostream>
@@ -55,13 +55,23 @@ void testLR1GetItemType() {
   assert(item3.getItemType() == fst::LR1_REDUCE_ITEM);
 }
 
-// TODO
-void testLR1Goto() {
+void testLR1Table() {
+  cout << "testLR1Table: " << endl;
+  auto g1 = egGrammer1();
+  auto t = fst::LR1Table(g1);
+  cout << t.C.toString() << endl;
 }
 
 int main() {
-    testCFGFirstSet();
-    testLR1GetItemType();
-    testLR1Closure();
+    try {
+      testCFGFirstSet();
+      testLR1GetItemType();
+      testLR1Closure();
+      testLR1Table();
+    } catch (const char* msg) {
+        cerr << msg << endl;
+        throw msg;
+    }
+    
     return 0;
 }
