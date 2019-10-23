@@ -1,0 +1,13 @@
+{
+    "deps": {
+        "ccunit": {
+            "repo": "git@github.com:LoveKino/ccunit.git"
+        },
+        "regulator": {
+            "repo": "git@github.com:LoveKino/regulator.git"
+        },
+        "token-parser": {
+            "repo": "git@github.com:LoveKino/token-parser.git"
+        }
+    }
+}

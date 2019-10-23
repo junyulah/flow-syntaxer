@@ -39,3 +39,4 @@ build
 
 thirdparty
 *.DS_Store
+test.out

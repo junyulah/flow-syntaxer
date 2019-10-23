@@ -1,4 +1,4 @@
-#include "../../lib/LR1Table.h"
+#include "../lib/LR1Table.h"
 #include "assert.h"
 #include "vector"
 #include <iostream>
