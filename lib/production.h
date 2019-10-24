@@ -7,9 +7,9 @@
 using namespace std;
 
 /*
- * productions: The productions of a grammer specify the manner in which the terminals and nonterminals can be combined to form strings.
+ * Productions: The productions of a grammer specify the manner in which the terminals and nonterminals can be combined to form strings.
  *
- * production:
+ * Production: head -> body
  *   (1) A nonterminal called the head or left side of the production; this production defines some of the strings denoted by the head.
  *   (2) The symbol ->, sometimes :=
  *   (3) A body or right side consiting of zero or more terminals and nonterminals.

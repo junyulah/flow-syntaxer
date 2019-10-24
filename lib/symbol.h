@@ -15,13 +15,13 @@ using namespace std;
  * start symbol
  */
 
-// define basic Symbol class
 namespace fst {
 const unsigned int TERMINAL_SYMBOL_TYPE = 0; // terminal symbol
 const unsigned int NON_TERMINAL_SYMBOL_TYPE = 1; // none terminal symbol
-const static string EPSILON = "";
+const static string EPSILON = ""; // epsilon is a special terminal stands for empty
 const static string END_SYMBOL_TEXT = "$";
 
+// Symbol {type, text}
 class Symbol {
   public:
     unsigned int type;

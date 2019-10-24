@@ -29,7 +29,7 @@ public:
   ContextFreeGrammer();
   ContextFreeGrammer(Symbol s, vector<Production> p);
 
-  // first set
+  // first set, A -> a1a2...ak
   unordered_set<string> getFirstSet(vector<Symbol> seq);
   unordered_set<string> getFirstSetOfSymbol(Symbol symbol);
 

@@ -133,27 +133,28 @@ namespace fst {
   }
 
   // A -> a1a2...ak
+  // eg: A -> B C, first[B] <= first[A], if ε ∈ first[B], then first[C] <= first[A]
   unordered_set<string> ContextFreeGrammer::getFirstSet(vector<Symbol> seq) {
-    unordered_set<string> ret;
+    unordered_set<string> ans;
 
     for(auto symbol: seq) {
       auto set = this->getFirstSetOfSymbol(symbol);
 
       for(auto text: set) {
         if(text != EPSILON) {
-          ret.insert(text);
+          ans.insert(text);
         }
       }
 
-      if(set.find(EPSILON) != set.end()) { // has epsilon
+      if(set.find(EPSILON) == set.end()) { // has epsilon
         continue;
       } else {
-        return ret;
+        return ans;
       }
     }
 
-    ret.insert(EPSILON);
-    return ret;
+    ans.insert(EPSILON);
+    return ans;
   }
 
   /**
