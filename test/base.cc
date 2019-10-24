@@ -63,7 +63,6 @@ int main() {
       }),
 
       unit_test::test("lr1 table", [&]() {
-        cout << "testLR1Table: " << endl;
         auto g1 = egGrammer1();
         auto t = fst::LR1Table(g1);
         cout << t.C.toString() << endl;
