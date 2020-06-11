@@ -1,5 +1,6 @@
 #pragma once
 
+#include <algorithm>
 #include "./cfg.h"
 #include "unordered_set"
 #include "./LR1Item.h"

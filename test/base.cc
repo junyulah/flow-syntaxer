@@ -1,5 +1,6 @@
 #include "../lib/LR1Table.h"
-#include "../../ccunit/lib/unit.h"
+#include "../lib/AST.h"
+#include "unit.h"
 #include "assert.h"
 #include "vector"
 #include <iostream>
@@ -69,5 +70,22 @@ int main() {
       }),
     }).run();
 
+    // ast tree
+    unit_test::group("ast tree", vector<unit_test::UnitCase> {
+      unit_test::test("base", [&]() {
+         // S -> E
+         // E -> num + num
+         // token list: 1 + 2
+         auto ast = fst::AstNode::initAst(fst::Symbol(fst::NON_TERMINAL_SYMBOL_TYPE, "S"));
+         fst::AstNode::appendToken(ast, ftp::Token("num", "1"));
+         fst::AstNode::appendToken(ast, ftp::Token("+", "+"));
+         fst::AstNode::appendToken(ast, ftp::Token("num", "2"));
+
+         // reduce
+         fst::AstNode::reduceAst(ast, 0, 2, fst::Symbol(fst::NON_TERMINAL_SYMBOL_TYPE, "E"));
+         assert(ast.children.size() == 1);
+         assert(ast.children[0].symbol.text == "E");
+      }),
+    }).run();
     return 0;
 }
