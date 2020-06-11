@@ -12,16 +12,16 @@ namespace fst {
         for (auto item: itemSet.second.items) {
             // is accept item
             if(item.second.getId() == eStartItem.getId()) {
-                this->actionTable[itemSet.second.getId()][END_SYMBOL_TEXT] = LR1Action(ACTION_ACCEPT);
+                this->actionTable[itemSet.second.getId()][END_SYMBOL_TEXT] = LRAction(ACTION_ACCEPT);
             } else {
                 auto t = item.second.getItemType();
                 
                 if(t == LR1_REDUCE_ITEM) {
-                    this->actionTable[itemSet.second.getId()][item.second.lookahead.text] = LR1Action(ACTION_REDUCE, item.second.production.toString());
+                    this->actionTable[itemSet.second.getId()][item.second.lookahead.text] = LRAction(ACTION_REDUCE, item.second.production.toString());
                 } else if(t == LR1_SHIFT_ITEM) {
                     if(item.second.hasNextSymbol()) {
                         auto nextSymbolText = item.second.getNextSymbol().text;
-                        this->actionTable[itemSet.second.getId()][nextSymbolText] = LR1Action(ACTION_SHIFT, C.GOTO_TABLE[itemSet.second.getId()][nextSymbolText]);
+                        this->actionTable[itemSet.second.getId()][nextSymbolText] = LRAction(ACTION_SHIFT, C.GOTO_TABLE[itemSet.second.getId()][nextSymbolText]);
                     }
                 }
             }
