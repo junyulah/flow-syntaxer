@@ -77,6 +77,10 @@ public:
     ftp::Token token; // leaf has the token
     vector<AstNode> children;
 
+    AstNode() = default;
+
+    AstNode(Symbol s): symbol(s) {};
+    AstNode(Symbol s, ftp::Token t): symbol(s), token(t) {};
     AstNode(Symbol s, ftp::Token t, vector<AstNode> c): symbol(s), token(t), children(c) {}
 
     // initial an ast tree

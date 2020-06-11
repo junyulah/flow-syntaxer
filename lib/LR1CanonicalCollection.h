@@ -3,9 +3,9 @@
 #include "./cfg.h"
 #include "unordered_set"
 #include "./LR1ItemSet.h"
+#include "./LRAction.h"
 
 namespace fst {
-const static string EXPAND_START_SYMBOL_TEXT = "S'";
 // get LR1 start item
 LR1Item getLR1StartItem(ContextFreeGrammer &cfg);
 
@@ -16,7 +16,10 @@ public:
   unordered_map<string, LR1ItemSet> collection;
 
   // {itemSetId: {symbol: itemSetId}}
-  unordered_map<string, unordered_map<string, string>> GOTO_TABLE;
+  GOTOTable gotoTable;
+
+  // initial canonical state
+  LR1ItemSet start;
 
   LR1CanonicalCollection() = default;
   LR1CanonicalCollection(ContextFreeGrammer &cfg);

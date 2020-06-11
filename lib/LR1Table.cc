@@ -17,11 +17,11 @@ namespace fst {
                 auto t = item.second.getItemType();
                 
                 if(t == LR1_REDUCE_ITEM) {
-                    this->actionTable[itemSet.second.getId()][item.second.lookahead.text] = LRAction(ACTION_REDUCE, item.second.production.toString());
+                    this->actionTable[itemSet.second.getId()][item.second.lookahead.text] = LRAction(ACTION_REDUCE, item.second.production);
                 } else if(t == LR1_SHIFT_ITEM) {
                     if(item.second.hasNextSymbol()) {
                         auto nextSymbolText = item.second.getNextSymbol().text;
-                        this->actionTable[itemSet.second.getId()][nextSymbolText] = LRAction(ACTION_SHIFT, C.GOTO_TABLE[itemSet.second.getId()][nextSymbolText]);
+                        this->actionTable[itemSet.second.getId()][nextSymbolText] = LRAction(ACTION_SHIFT, C.gotoTable[itemSet.second.getId()][nextSymbolText]);
                     }
                 }
             }

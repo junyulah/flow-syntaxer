@@ -38,18 +38,14 @@ namespace fst {
   };
 
   AstNode AstNode::initAst(Symbol start) {
-    vector<AstNode> children;
-    return AstNode(start, ftp::Token("", ""), children);
+    return AstNode(start);
   }
 
   void AstNode::appendToken(AstNode &ast, ftp::Token token) {
-    vector<AstNode> leafChildren;
-
     ast.children.push_back(
       AstNode(
         fst::Symbol(fst::TERMINAL_SYMBOL_TYPE, token.getName()),
-        token,
-        leafChildren));
+        token));
   }
 
   void AstNode::reduceAst(AstNode &ast, int start, int end, Symbol leftSymbol) {

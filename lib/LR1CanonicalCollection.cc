@@ -15,6 +15,7 @@ namespace fst {
     auto s1 = LR1ItemSet(cfg, vector<LR1Item>{
       getLR1StartItem(cfg)
     });
+    this->start = s1;
 
     incrementSet[s1.getId()] = s1;
     this->collection[s1.getId()] = s1;
@@ -41,7 +42,7 @@ namespace fst {
             }
 
             // record (from, item, to) to table
-            this->GOTO_TABLE[from.getId()][item.second.text] = to.getId();
+            this->gotoTable[from.getId()][item.second.text] = to.getId();
           }
         }
 

@@ -2,7 +2,11 @@
 
 #include <iostream>
 #include <vector>
+#include <deque>
 #include "token.h"
+#include "./cfg.h"
+#include "./LRAction.h"
+#include "./AST.h"
 
 /**
  * LR syntax analysis algorithm
@@ -30,13 +34,37 @@
  */
 namespace fst {
 class Configuration {
-private:
-  vector<string> stateStack;
-  vector<ftp::Token> tokenBuffer;
 public:
+  vector<string> stateStack;
+  deque<ftp::Token> tokenBuffer;
+  Configuration() = default;
 };
 
 class LRParser {
+private:
+  ContextFreeGrammer cfg;
+  ActionTable actionTable;
+  GOTOTable gotoTable;
+  AstNode ast;
+  Configuration configuration;
+
+  LRAction getAction(string state, ftp::Token token);
+  string goTo(string state, string symbolType);
+
+  // (S₀X₁S₁..XmSm, aiai₊₁...an$) -> (S₀X₁S₁..XmSm ai S, ai₊₁...an$)
+  // S = GOTO(Sm, ai);
+  void shift(string state, ftp::Token token);
+
+  // (S₀X₁S₁..XmSm, aiai₊₁...an$) -> (S₀X₁S₁...Xm₋rSm₋rAS, aiai₊₁...an$)
+  // A → β, r = |β|
+  // S = GOTO(Sm₋r, A)
+  void reduce(Production prod);
+
+  void analysis();
 public:
+  LRParser(ContextFreeGrammer const &c, ActionTable const &a, GOTOTable &gotoTable, string startState);
+
+  void acceptToken(ftp::Token const &token);
+  void endToken();
 };
 };

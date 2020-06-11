@@ -10,6 +10,7 @@
 using namespace std;
 
 namespace fst {
+const static string EXPAND_START_SYMBOL_TEXT = "S'";
 class ContextFreeGrammer {
 private:
   unordered_map<string, unordered_set<string>> firstSetMap;
@@ -26,7 +27,7 @@ public:
   unordered_map<string, vector<Production>> productionMap;
 
   // constructor
-  ContextFreeGrammer();
+  ContextFreeGrammer() = default;
   ContextFreeGrammer(Symbol s, vector<Production> p);
 
   // first set, A -> a1a2...ak
