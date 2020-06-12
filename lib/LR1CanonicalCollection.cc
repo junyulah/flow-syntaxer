@@ -3,9 +3,16 @@
 namespace fst {
   // [S' -> .E, $]
   LR1Item getLR1StartItem(ContextFreeGrammer &cfg) {
-    auto pro = Production(Symbol(EXPAND_START_SYMBOL_TEXT),
+    auto pro = Production(Symbol(NON_TERMINAL_SYMBOL_TYPE, EXPAND_START_SYMBOL_TEXT),
       vector<Symbol>{cfg.start});
     return LR1Item(pro, 0, END_SYMBOL_TEXT);
+  }
+
+  // [S' -> E., $]
+  LR1Item getLR1AcceptItem(ContextFreeGrammer &cfg) {
+   auto pro = Production(Symbol(NON_TERMINAL_SYMBOL_TYPE, EXPAND_START_SYMBOL_TEXT),
+      vector<Symbol>{cfg.start});
+    return LR1Item(pro, 1, END_SYMBOL_TEXT);
   }
 
   LR1CanonicalCollection::LR1CanonicalCollection(ContextFreeGrammer &cfg) {

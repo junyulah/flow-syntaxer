@@ -27,10 +27,11 @@ namespace fst {
     return this->production.body[this->position];
   }
 
+  // get β from A -> a.Bβ
   vector<Symbol> LR1Item::getNextRestSymbols() {
     vector<Symbol> ret;
     auto len = this->production.getBodyLength();
-    for(int i = this->position; i < len; i++) {
+    for(int i = this->position + 1; i < len; i++) {
         ret.push_back(this->production.body[i]);
     }
     return ret;

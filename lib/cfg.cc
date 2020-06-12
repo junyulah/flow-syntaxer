@@ -33,6 +33,10 @@ namespace fst {
         this->symbolMap[item.text] = item;
       }
     }
+
+    // add end symbol to symbol map
+    auto endSymbol = Symbol::EndSymbol();
+    this->symbolMap[endSymbol.text] = endSymbol;
   }
 
   bool ContextFreeGrammer::hasSymbolInFirstSet(Symbol first, string txt) {
@@ -146,7 +150,7 @@ namespace fst {
         }
       }
 
-      if(set.find(EPSILON) == set.end()) { // has epsilon
+      if(set.find(EPSILON) != set.end()) { // has epsilon
         continue;
       } else {
         return ans;

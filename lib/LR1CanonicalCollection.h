@@ -9,6 +9,8 @@ namespace fst {
 // get LR1 start item
 LR1Item getLR1StartItem(ContextFreeGrammer &cfg);
 
+LR1Item getLR1AcceptItem(ContextFreeGrammer &cfg);
+
 // Sets of LR1 Item Set
 class LR1CanonicalCollection {
 public:

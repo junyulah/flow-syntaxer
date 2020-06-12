@@ -40,9 +40,9 @@ namespace fst {
           // for every production B -> ρ in cfg
           auto productions = cfg.productionMap[symbol.text];
           for(auto pro: productions) { // ρ
-            auto fstSet = cfg.getFirstSet(rmsential);
             // for every terminal b in First(βa)
             // add [B -> .ρ, b] into items
+            auto fstSet = cfg.getFirstSet(rmsential); 
             for(auto b: fstSet) { // b
               auto newItem = LR1Item(pro, 0, b);
               auto newItemId = newItem.getId();

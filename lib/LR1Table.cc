@@ -4,14 +4,13 @@ namespace fst {
   LR1Table::LR1Table(ContextFreeGrammer &cfg) {
     this->C = LR1CanonicalCollection(cfg);
 
-    auto eStartItem = getLR1StartItem(cfg);
     this->actionTable = ActionTable();
 
     for(auto itemSet: this->C.collection) {
         // item = [head, body, dotPosition, lookahead]
         for (auto item: itemSet.second.items) {
             // is accept item
-            if(item.second.getId() == eStartItem.getId()) {
+            if(item.second.getId() == getLR1AcceptItem(cfg).getId()) {
                 this->actionTable[itemSet.second.getId()][END_SYMBOL_TEXT] = LRAction(ACTION_ACCEPT);
             } else {
                 auto t = item.second.getItemType();

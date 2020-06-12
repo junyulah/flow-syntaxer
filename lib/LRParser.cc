@@ -60,6 +60,7 @@ namespace fst {
   void LRParser::analysis() {
     auto topState = this->configuration.stateStack.back();
     auto nextToken = this->configuration.tokenBuffer.front();
+
     // look up action
     auto act = this->getAction(topState, nextToken);
 
@@ -71,7 +72,8 @@ namespace fst {
         this->reduce(act.reduceProduction);
         break;
       case ACTION_ACCEPT:
-          // TODO done
+        this->configuration.tokenBuffer.pop_front();
+        this->configuration.stateStack.pop_back();
         break;
     }
   }

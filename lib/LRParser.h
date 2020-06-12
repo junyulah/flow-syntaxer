@@ -45,7 +45,6 @@ private:
   ContextFreeGrammer cfg;
   ActionTable actionTable;
   GOTOTable gotoTable;
-  AstNode ast;
   Configuration configuration;
 
   LRAction getAction(string state, ftp::Token token);
@@ -62,6 +61,8 @@ private:
 
   void analysis();
 public:
+  AstNode ast;
+
   LRParser(ContextFreeGrammer const &c, ActionTable const &a, GOTOTable &gotoTable, string startState);
 
   void acceptToken(ftp::Token const &token);

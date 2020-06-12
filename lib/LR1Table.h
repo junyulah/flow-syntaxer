@@ -14,7 +14,5 @@ public:
   LR1CanonicalCollection C;
 
   LR1Table(ContextFreeGrammer &cfg);
-
-  bool isAcceptLR1Item(LR1Item item);
 };
 }; // namespace fst
